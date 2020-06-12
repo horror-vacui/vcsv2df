@@ -1,8 +1,8 @@
 # vcsv2df
 
-A script to create python dataframe, which then can be processed altered in python. The script 'vcsv2df.py' processes a single vcsv file[^1], while the other file 'vcsv_merge.py' takes multiple vcsv files as arguments and creates one merged dataframe. It has an option to write out the dataframe into a csv file with the detected column names.
+A script to create python dataframe, which then can be processed altered in python. The script 'vcsv2df.py' processes a single vcsv file<sup>[1](#fn1)</sup>, while the other file 'vcsv_merge.py' takes multiple vcsv files as arguments and creates one merged dataframe. It has an option to write out the dataframe into a csv file with the detected column names.
 
-[^1]: vcsv files are ASCII export files from Cadence ViVA waveform viewer.
+<a name="fn1">1</a>: vcsv files are ASCII export files from Cadence ViVA waveform viewer.
 
 # Usage
 ```python
@@ -10,7 +10,7 @@ $ python3 vcsv_merge.py slvtnfet_*.vcsv -o slvtnfet.csv
 ```
 
 The scripts have built-in usage help text:
-```python
+```bash
 $ python3 vcsv_merge.py  -h
 usage: vcsv_merge.py [-h] [-o O] f_in [f_in ...]
 

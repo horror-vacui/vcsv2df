@@ -51,16 +51,12 @@ def vcsv2df(f_in):
 		else:
 			sig_name = l_name[i]
 
-		# print(m.group('name'))
-		# print(l_wp)
-
 		df = pd.read_csv(f_in, header=None, skiprows=6, usecols=[2*i,2*i+1], names=[x_axis,sig_name], dtype=float)
 		if m:
 			for j in l_wp:
 				k = j.split("=")
 				df[k[0]] = float(k[1])
 		l_df.append(df)
-		# print(df)
 	
 	if m: # we have the same signal for different paramter values
 		return pd.concat(l_df, ignore_index=True)

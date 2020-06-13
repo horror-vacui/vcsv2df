@@ -1,5 +1,6 @@
 import pandas as pd
 import csv, argparse, re
+from functools import reduce
 
 def vcsv2df(f_in):
 #	if isinstance(fname, str):
@@ -27,7 +28,6 @@ def vcsv2df(f_in):
 				else:
 					print(idx)
 					raise ValueError("idx should be in the list of [2,5]")
-				# print(list(l_line))
 
 	#---------------------------------------------------
 	# check if all axis are the same
@@ -45,22 +45,27 @@ def vcsv2df(f_in):
 	l_df = []
 	for i in range(my_range):
 		m = re.match('(?P<name>.*) \((?P<par>.*)\)',l_name[i])
-		sig_name = m.group('name')
-		l_wp = m.group('par').split('|')  # wp = wave paramters
+		if m:
+			sig_name = m.group('name')
+			l_wp = m.group('par').split('|')  # wp = wave paramters
+		else:
+			sig_name = l_name[i]
+
 		# print(m.group('name'))
 		# print(l_wp)
 
 		df = pd.read_csv(f_in, header=None, skiprows=6, usecols=[2*i,2*i+1], names=[x_axis,sig_name], dtype=float)
-		for j in l_wp:
-			k = j.split("=")
-			df[k[0]] = float(k[1])
+		if m:
+			for j in l_wp:
+				k = j.split("=")
+				df[k[0]] = float(k[1])
 		l_df.append(df)
 		# print(df)
 	
-#	if isinstance(fname, str):
-#		close(f_in)
-
-	return pd.concat(l_df, ignore_index=True)
+	if m: # we have the same signal for different paramter values
+		return pd.concat(l_df, ignore_index=True)
+	else: # we have different signals
+		return reduce(lambda  left,right: pd.merge(left,right, how='outer'), l_df)   
 
 if __name__ == "__main__":
 
@@ -69,5 +74,6 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	df = vcsv2df(args.f_in)
+	pd.set_option('display.max_rows', None)
 	print(df)
 	

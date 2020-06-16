@@ -1,5 +1,6 @@
-# I will use vcsv2df to create one big dataframe with all simualted small-signal paramters
+#!/usr/bin/env python3
 
+# I will use vcsv2df to create one big dataframe with all simualted small-signal paramters
 from vcsv2df import vcsv2df
 import argparse
 import pandas as pd
